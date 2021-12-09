@@ -1,4 +1,5 @@
+import { myMethod } from "./fake_library";
 
 function opa() {
-    console.log('my typescript file.');
+    myMethod('iFood');
 }
