@@ -1,0 +1,19 @@
+{
+  "name": "@ifood/test-gitlab-pipeline",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/batatinha-delivery/test-gitlab-pipeline.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/batatinha-delivery/test-gitlab-pipeline/issues"
+  },
+  "homepage": "https://github.com/batatinha-delivery/test-gitlab-pipeline#readme"
+}

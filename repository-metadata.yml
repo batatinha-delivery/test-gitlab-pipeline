@@ -1,0 +1,28 @@
+apiVersion: ifood/v1beta1
+kind: Repository
+metadata:
+  costCenter: platform
+  tribe: platform
+  squad: standards
+  team:
+    alias: standards
+    channel: platform-standards
+    email: everton.tavares@batatinha-delivery.com.br
+    owner: everton.tavares
+  tags:
+    - micro-frontend
+    - typescript
+spec:
+  contents:
+    - name: "@ifood/test-gitlab-project"
+      description: A test project to test gitlab pipeline
+      lifecycle: development
+      type: other
+      subType:
+        - tool
+      impactLevel: 5
+      deployment:
+        type: none
+        channel: ifood-npm-releases
+        owners:
+          - everton.tavares
