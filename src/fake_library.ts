@@ -1,4 +1,4 @@
 
 export function myMethod(name: string) {
-    console.log(`Hello ${name}`);
+    console.log(`Bla bla bla ${name}`);
 }
