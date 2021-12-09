@@ -1,12 +1,123 @@
-workflow:
-  - when: always
-
 include:
+  # - project: "ifood/pipelines/gitlab-pipelines"
+  #   ref: main
+  #   file: "pipelines/ifood-npm-library/main.yml"
+    # templates
   - project: "ifood/pipelines/gitlab-pipelines"
     ref: main
-    file: "pipelines/ifood-npm-library/main.yml"
+    file: "common/templates/dependency_check.yml"
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: "common/templates/food-cli.yml"
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: "common/templates/mobsf_sast.yml"
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: "common/templates/git.yml"
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: "common/templates/npm.yml"
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: "common/templates/sast.yml"
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: "common/templates/snyk.yml"
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: "common/templates/sonarqube.yml"
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: "common/templates/vault.yml"
+
+ # stage: .pre
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/pre/snyk_should_run.yml
+
+  # stage: pipeline info
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/pipeline_info/pipeline_info.yml
+
+  # stage: install
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: pipelines/ifood-npm-library/stages/install/install_dependencies.yml
+
+  # stage: security scan
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/security_scan/dependency_check_generic.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/security_scan/dependency_check_go.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/security_scan/bandit_sast.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/security_scan/brakeman_sast.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/security_scan/eslint_sast.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/security_scan/flawfinder_sast.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/security_scan/gitguardian.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/security_scan/gosec_sast.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/security_scan/kubesec_sast.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/security_scan/mobsf_android_sast.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/security_scan/mobsf_ios_sast.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/security_scan/nodejs_scan_sast.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/security_scan/phpcs_security_audit_sast.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/security_scan/pmd_apex_sast.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/security_scan/security_code_scan_sast.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/security_scan/semgrep_sast.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/security_scan/snyk_general.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/security_scan/snyk_gradle.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/security_scan/snyk_maven.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/security_scan/sobelow_sast.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/security_scan/spotbugs_sast.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/security_scan/gitleaks.yml
+
+
 
 variables:
   DEFAULT_BUMP_TYPE: "patch"
   NODE_VERSION: "12.16.1"
   SERVICE_NAME: "test-gitlab-pipeline"
+  FORCE_RUN: "true"
