@@ -1,3 +1,6 @@
+workflow:
+  - when: always
+
 include:
   - project: "ifood/pipelines/gitlab-pipelines"
     ref: main
