@@ -1,5 +1,6 @@
 import { myMethod } from "./fake_library";
 
-function opa() {
-    myMethod('iFood');
+export function opa() {
+    const result = myMethod('iFood');
+    console.log(result);
 }

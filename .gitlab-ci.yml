@@ -2,36 +2,42 @@ include:
   # - project: "ifood/pipelines/gitlab-pipelines"
   #   ref: main
   #   file: "pipelines/ifood-npm-library/main.yml"
-    # templates
-  - project: "ifood/pipelines/gitlab-pipelines"
-    ref: main
-    file: "common/templates/dependency_check.yml"
-  - project: "ifood/pipelines/gitlab-pipelines"
-    ref: main
-    file: "common/templates/food-cli.yml"
-  - project: "ifood/pipelines/gitlab-pipelines"
-    ref: main
-    file: "common/templates/mobsf_sast.yml"
-  - project: "ifood/pipelines/gitlab-pipelines"
-    ref: main
-    file: "common/templates/git.yml"
-  - project: "ifood/pipelines/gitlab-pipelines"
-    ref: main
-    file: "common/templates/npm.yml"
-  - project: "ifood/pipelines/gitlab-pipelines"
-    ref: main
-    file: "common/templates/sast.yml"
-  - project: "ifood/pipelines/gitlab-pipelines"
-    ref: main
-    file: "common/templates/snyk.yml"
-  - project: "ifood/pipelines/gitlab-pipelines"
-    ref: main
-    file: "common/templates/sonarqube.yml"
-  - project: "ifood/pipelines/gitlab-pipelines"
-    ref: main
-    file: "common/templates/vault.yml"
 
- # stage: .pre
+  # workflow
+  # - project: "ifood/pipelines/gitlab-pipelines"
+  #   ref: main
+  #   file: common/workflows/releasable_merge_request.yml
+
+  # templates
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/templates/dependency_check.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/templates/food-cli.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/templates/mobsf_sast.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/templates/git.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/templates/npm.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/templates/sast.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/templates/snyk.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/templates/sonarqube.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/templates/vault.yml
+
+  # stage: .pre
   - project: "ifood/pipelines/gitlab-pipelines"
     ref: main
     file: common/stages/pre/snyk_should_run.yml
@@ -114,10 +120,78 @@ include:
     ref: main
     file: common/stages/security_scan/gitleaks.yml
 
+  # stage: security publish report
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/security_publish_report/ifd_sast_cli.yml
 
+  # stage: compliance check
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/compliance_check/changelog_validation.yml
+
+  # stage: test
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: pipelines/ifood-npm-library/stages/test/unit_test.yml
+
+  # stage: code analysis
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: common/stages/code_analysis/sonarqube.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: pipelines/ifood-npm-library/stages/code_analysis/lint.yml
+
+  # stage: release
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: pipelines/ifood-npm-library/stages/release/lerna.yml
+  - project: "ifood/pipelines/gitlab-pipelines"
+    ref: main
+    file: pipelines/ifood-npm-library/stages/release/release_it.yml
 
 variables:
-  DEFAULT_BUMP_TYPE: "patch"
+  AUTOMATIC_BUMP: "true"
+  CODE_QUALITY_ENABLED: "true"
+  CONTEXT: "$CI_PROJECT_DIR"
+  BUILD_CONTEXT: "$CONTEXT"
+  DEFAULT_BUMP_TYPE: ""
+  DESTINATION_CHANNELS: "#ifood-npm-releases"
+  DRY_RUN: "false"
+  FORCE_RUN: "false"
+  GENERATE_RELEASE: "true"
+  HUSKY: 0
+  IFD_SAST_CLI_VERSION: $IFD_SAST_CLI_VERSION
+  LERNA_POSITIONAL: ""
+  LERNA_VERSION_ARGS: ""
+  LERNA_VERSION_RUN: "false"
+  LERNA_PUBLISH_ARGS: ""
   NODE_VERSION: "12.16.1"
-  SERVICE_NAME: "test-gitlab-pipeline"
-  FORCE_RUN: "true"
+  NOTIFY: "true"
+  RELEASE_ARGS: ""
+  SAST_ANALYZER_IMAGE_TAG: 2
+  SAST_DEFAULT_ANALYZERS: "bandit, brakeman, gosec, spotbugs, flawfinder, phpcs-security-audit, security-code-scan, nodejs-scan, eslint, sobelow, pmd-apex, kubesec, mobsf, gitleaks"
+  SAST_EXCLUDED_ANALYZERS: "eslint, semgrep, gitleaks, mobsf"
+  SAST_EXCLUDED_PATHS: "spec, test, tests, tmp"
+  SCAN_KUBERNETES_MANIFESTS: "false"
+  SERVICE_NAME: ""
+  SECURE_ANALYZERS_PREFIX: "registry.gitlab.com/gitlab-org/security-products/analyzers"
+  SECURE_LOG_LEVEL: "debug"
+  SECURITY_SCAN: "false"
+  SECURITY_SCAN_NODEJS: "false"
+  SONAR_PROJECT_KEY: "$CI_PROJECT_PATH_SLUG"
+  VAULT_AUTH_PATH_PRODUCTION: "code_ifoodcorp_jwt"
+  VAULT_AUTH_ROLE_APPSEC: "read-gitlab-appsec"
+  VAULT_AUTH_ROLE_NEXUS: "read-gitlab-nexus"
+  VAULT_AUTH_ROLE_SONARQUBE: "read-gitlab-sonarqube"
+
+stages:
+  - pipeline info
+  - compliance check
+  - install
+  - build
+  - test
+  - security publish report
+  - code analysis
+  - release
