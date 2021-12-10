@@ -2,7 +2,8 @@
   "name": "@ifood/test-gitlab-pipeline",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/batatinha-delivery/test-gitlab-pipeline.git"
